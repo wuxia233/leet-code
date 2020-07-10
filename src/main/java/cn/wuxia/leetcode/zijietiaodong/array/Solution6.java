@@ -2,7 +2,7 @@ package cn.wuxia.leetcode.zijietiaodong.array;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * @Author: WuXia
@@ -12,7 +12,7 @@ import java.util.Arrays;
  */
 @Slf4j
 public class Solution6 {
-    public int longestConsecutive(int[] nums) {
+    /*public int longestConsecutive(int[] nums) {
         if (nums.length == 0) {
             return 0;
         }
@@ -24,12 +24,42 @@ public class Solution6 {
         Arrays.sort(nums);
         for(int i = 0; i < nums.length; i++) {
             int count = 1;
-            while((i + 1) < nums.length && nums[i + 1] >= nums[i]) {
-                count++;
+            while((i + 1) < nums.length && (nums[i + 1] - nums[i] == 1 || nums[i + 1] == nums[i])) {
+                if (nums[i + 1] - nums[i] == 1) {
+                    count++;
+                }
                 i++;
             }
             if (count > result) {
                 result = count;
+            }
+        }
+        return result;
+    }*/
+
+    public int longestConsecutive(int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+
+        int result = 1;
+        int count;
+        Iterator<Integer> iterator = set.iterator();
+        while(iterator.hasNext()) {
+            count = 1;
+            Integer num = iterator.next();
+            if (!set.contains(num - 1)) {
+                while(set.contains(++num)) {
+                    count++;
+                }
+                if (count > result) {
+                    result = count;
+                }
             }
         }
         return result;
