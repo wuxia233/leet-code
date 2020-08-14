@@ -14,16 +14,28 @@ public class Solution10 {
         int rainArea = 0;
         int i = 0;
         while (i < height.length - 1) { // 需要找到一段区间内最高的两个柱子来计算之间的雨水面积
+            int maxHeight = 0;
+            int maxHeightIndex = 0;
             if (height[i] > 0) {
-                int j = i;
-                while ((j + 1) < height.length && height[j + 1] <= height[j]) { // 柱子高度递减
+                int j = i + 1;
+                while(j < height.length && height[j] < height[i]) {
+                    if (height[j] > maxHeight) {
+                        maxHeight = height[j];
+                        maxHeightIndex = j;
+                    }
                     j++;
                 }
-                while ((j + 1) < height.length && height[j + 1] >= height[j]) { // 柱子高度递增
-                    j++;
+                if (j == height.length) {
+                    if (i < maxHeightIndex) {
+                        rainArea += countArea(height, i, maxHeightIndex);
+                        i = maxHeightIndex;
+                    } else {
+                        i++;
+                    }
+                } else {
+                    rainArea += countArea(height, i, j);
+                    i = j;
                 }
-                rainArea += countArea(height, i, j);
-                i = j;
             } else {
                 i++;
             }
@@ -54,7 +66,7 @@ public class Solution10 {
     public static void main(String... args) {
         Solution10 solution10 = new Solution10();
         // int[] height = {0,1,0,2,1,0,1,3,2,1,2,1};
-        int[] height = {5,2,1,2,1,5};
+        int[] height = {5,4,1,2};
         int count = solution10.trap(height);
         System.out.println(count);
     }
