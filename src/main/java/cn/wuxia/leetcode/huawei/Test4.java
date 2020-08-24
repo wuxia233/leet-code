@@ -8,7 +8,14 @@ import java.util.Deque;
 
 class ListNode {
     int value;
-    ListNode next;
+    ListNode next = null;
+
+    public ListNode(int value) {
+        this.value = value;
+    }
+
+    public ListNode() {
+    }
 }
 
 public class Test4 {
